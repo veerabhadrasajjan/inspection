@@ -4,11 +4,56 @@
     <h3>Inspection</h3>
   </div>
 
-  <div class="row">
-    <div class="co1"></div>
+  <dx-validation-group>
+    <div class="row">
 
-  </div>
-<!-- 
+
+      <div class="col-4">
+        <div class="lable">Customer Part No.</div>
+        <dx-text-box name="FirstName">
+          <dx-validator>
+            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+          </dx-validator>
+        </dx-text-box>
+      </div>
+
+      <div class="col-4">
+        <div class="lable">Part Name</div>
+        <dx-text-box name="FirstName">
+          <dx-validator>
+            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+          </dx-validator>
+        </dx-text-box>
+      </div>
+
+      <div class="col-4">
+          <div class="lable">Autoplast part no.</div>
+        <dx-text-box name="FirstName">
+          <dx-validator>
+            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+          </dx-validator>
+        </dx-text-box>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col">
+        Drawing number
+      </div>
+
+      <div class="col">
+        Drawing Rev. no.
+      </div>
+
+      Tool Number
+      Part Image
+      Document Number
+      Revision No.
+      Revision Date
+    </div>
+
+  </dx-validation-group>
+  <!-- 
   <dx-validation-group>
     <dx-text-box name="FirstName">
       <dx-validator>
@@ -27,8 +72,9 @@
   </dx-validation-group> -->
 
 
-  <dx-data-grid id="gridContainer" [dataSource]="countries" [allowColumnResizing]="true" [columnResizingMode]="columnResizingMode"
-    [columnAutoWidth]="true" [showBorders]="true" [allowColumnReordering]="true">
+  <dx-data-grid id="gridContainer" [dataSource]="countries" [allowColumnResizing]="true"
+    [columnResizingMode]="columnResizingMode" [columnAutoWidth]="true" [showBorders]="true"
+    [allowColumnReordering]="true">
 
     <dxo-paging [enabled]="false"></dxo-paging>
     <dxo-editing mode="batch" [allowUpdating]="true" [allowAdding]="true">
