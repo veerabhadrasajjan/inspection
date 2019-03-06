@@ -9,105 +9,155 @@
 
 
       <div class="col-4">
-        <div class="lable">Customer Part No.</div>
-        <dx-text-box name="FirstName">
+        <div class="label">Customer Part No.</div>
+        <dx-text-box name="PartNo" [(value)]="partNumber" placeholder="Customer Part Number">
           <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Part Number is required"></dxi-validation-rule>
           </dx-validator>
         </dx-text-box>
       </div>
 
       <div class="col-4">
-        <div class="lable">Part Name</div>
-        <dx-text-box name="FirstName">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
+        <div class="label">Part Name</div>
+        <dx-autocomplete
+          name="PartName"
+          placeholder="Part Name"
+          [(value)]="partName"
+          [dataSource]="partNames">
+        </dx-autocomplete>
       </div>
 
       <div class="col-4">
-        <div class="lable">Autoplast part no.</div>
-        <dx-text-box name="FirstName">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
+        <div class="label">Autoplast part no.</div>
+        <dx-autocomplete
+          name="AutoplastPartNo"
+          placeholder="Autoplast Part Number"
+          [(value)]="autoplastPartNo"
+          [dataSource]="autoplastPartNos">
+        </dx-autocomplete>
       </div>
     </div>
     <div class="row">
 
       <div class="col-4">
-        <div class="lable">Drawing number</div>
-        <dx-text-box name="FirstName">
+        <div class="label">Drawing number</div>
+        <dx-text-box name="DrawingNumber" [(value)]="drawingnumber" placeholder="Drawing number">
           <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Drawing number is required"></dxi-validation-rule>
           </dx-validator>
         </dx-text-box>
       </div>
 
       <div class="col-4">
-        <div class="lable">Drawing Rev. no.</div>
-        <dx-text-box name="FirstName">
+        <div class="label">Drawing Rev. no.</div>
+        <dx-text-box name="DrawingRevNumber"  [(value)]="drawingRevNumber" placeholder="Drawing Rev. no.">
           <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Drawing Rev. no. is required"></dxi-validation-rule>
           </dx-validator>
         </dx-text-box>
       </div>
 
       <div class="col-4">
-        <div class="lable">Tool Number</div>
-        <dx-text-box name="FirstName">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
+        <div class="label">Tool Number</div>
+          <dx-drop-down-box
+            [(value)]="toolNumber"
+            valueExpr="ID"
+            displayExpr="name"
+            placeholder="Tool Number"
+            [showClearButton]="true"
+            [dataSource]="toolNumbers">
+          </dx-drop-down-box>
       </div>
     </div>
 
     <div class="row">
       <div class="col-4">
-        <div class="lable">Part Image</div>
-        <dx-text-box name="FirstName">
+        <div class="label">Part Image</div>
+        <div>
+          <div *ngIf="savedCroppedImage == ''">
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Select Image</button>
+          </div>
+          <div>
+            <img [src]="savedCroppedImage"/>
+          </div>
+          <div class="mt-10" *ngIf="savedCroppedImage != ''">
+            <button type="button" class="btn btn-info btn-sm" (click)="removeImage()">Remove Image</button>
+          </div>
+        </div>
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Select Part Image</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <input type="file" (change)="fileChangeEvent($event)" />
+
+                <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [maintainAspectRatio]="true"
+                  [aspectRatio]="4 / 3"
+                  [resizeToWidth]="128"
+                  format="png"
+                  (imageCropped)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()"
+                  (cropperReady)="cropperReady()"
+                  (loadImageFailed)="loadImageFailed()">
+                </image-cropper>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveImage($event)">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="label">Document Number</div>
+        <dx-text-box name="DocumentNo" [(value)]="documentNumber" placeholder="Document Number">
           <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Document Number is required"></dxi-validation-rule>
           </dx-validator>
         </dx-text-box>
       </div>
 
       <div class="col-4">
-        <div class="lable">Document Number</div>
-        <dx-text-box name="FirstName">
+        <div class="label">Revision No.</div>
+        <dx-text-box name="RevisionNo" [(value)]="revisionNo" placeholder="Revision Number">
           <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
-      </div>
-
-      <div class="col-4">
-        <div class="lable">Revision No.</div>
-        <dx-text-box name="FirstName">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Revision No. is required"></dxi-validation-rule>
           </dx-validator>
         </dx-text-box>
       </div>
     </div>
     <div class="row">
       <div class="col-4">
+        <div class="label">Diagram</div>
+        <div>
+          <div>
+            <input type="file" (change)="saveDiagramImage($event)" />
+          </div>
+          <div>
+            <img class='mt-20' [src]="diagramImage"/>
+          </div>
+        </div>
+        
       </div>
       <div class="col-4">
       </div>
 
       <div class="col-4">
-        <div class="lable">Revision Date</div>
-        <dx-text-box name="FirstName">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
+        <div class="label">Revision Date</div>
+        <dx-date-box
+          class="mb-10"
+          [(value)]="revisionDate">
+        </dx-date-box>
       </div>
     </div>
+
+  
 
   </dx-validation-group>
   <!-- 
@@ -130,7 +180,7 @@
 
 
   <dx-data-grid id="gridContainer" [dataSource]="countries" [allowColumnResizing]="true"
-    [columnResizingMode]="columnResizingMode" [columnAutoWidth]="true" [showBorders]="true"
+    [columnAutoWidth]="true" [showBorders]="true"
     [allowColumnReordering]="true">
 
     <dxo-paging [enabled]="false"></dxo-paging>
@@ -201,4 +251,8 @@
     </dxi-column>
 
   </dx-data-grid>
+
+  
+
+
 </div>
