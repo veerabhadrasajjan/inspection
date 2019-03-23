@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 export class Country {
   PostionNo: number;
@@ -171,7 +174,15 @@ let countries: Country[] = [{
 
 @Injectable()
 export class Service {
+  constructor(private apiService: ApiService) { }
+
   getCountries(): Country[] {
     return countries;
   }
+
+  public getInspections(): Observable<any> {
+      let url = "https://api.myjson.com/bins/1aejjy";
+      return this.apiService.get(url).pipe(map(res => res));
+  }
+
 }

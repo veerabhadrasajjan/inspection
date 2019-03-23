@@ -22,8 +22,13 @@
         <dx-autocomplete
           name="PartName"
           placeholder="Part Name"
-          [(value)]="partName"
-          [dataSource]="partNames">
+          [dataSource]="inspections"
+          valueExpr="PartName"
+          itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event)">
+          <div *dxTemplate="let item of 'full'">
+            <span>{{item.PartName}}</span>
+          </div>
         </dx-autocomplete>
       </div>
 
@@ -32,10 +37,19 @@
         <dx-autocomplete
           name="AutoplastPartNo"
           placeholder="Autoplast Part Number"
-          [(value)]="autoplastPartNo"
-          [dataSource]="autoplastPartNos">
+          [dataSource]="inspections"
+          valueExpr="AutoplastPartNo"
+          itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event)">
+          <div *dxTemplate="let item of 'full'">
+            <span>{{item.AutoplastPartNo}}</span>
+          </div>
         </dx-autocomplete>
       </div>
+    </div>
+
+    <div >
+        selected data by autoComplete: <span>{{fullInfo && fullInfo}}</span>
     </div>
     <div class="row">
 

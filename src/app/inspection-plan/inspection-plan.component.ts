@@ -26,8 +26,10 @@ export class InspectionPlanComponent implements OnInit {
   croppedImage: any = '';
   savedCroppedImage: any = '';
   diagramImage: any = '';
-
-  constructor(service: Service) {
+  inspections : any;
+  fullInfo : any;
+  PartName : any;
+  constructor( private service: Service) {
     this.countries = service.getCountries();
     this.partNames = ['Engine', 'Silencer', 'Break', 'Handle'];
     this.autoplastPartNos = ['231', '23451', '14325', '54321'];
@@ -35,6 +37,22 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllInspections();
+  }
+
+  getAllInspections(){
+    this.service.getInspections().pipe().subscribe(res => {
+      this.inspections = res;
+      console.log(res, 'inspections')
+    }, (error: any) => {
+      console.error('error', error);
+    });
+  }
+
+  updateInspectionInfo(event){
+    var result = "";
+    result += (result && event.value) ? (", " + event.value) : event.value;
+    this.fullInfo = result;
   }
   
   fileChangeEvent(event: any): void {
