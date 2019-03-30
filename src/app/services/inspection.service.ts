@@ -33,12 +33,12 @@ export class Service {
   }
 
   public getCharcterstics(): Observable<any> {
-    let url = "/SaleCustomer/ItemsForAutoComplete";
+    let url = "/SaleCustomer/Dimensions";
     return this.apiService.get(url).pipe(map(res => res));
   }
 
   public getCheckingMethod(): Observable<any> {
-    let url = "/SaleCustomer/ItemsForAutoComplete";
+    let url = "/SaleCustomer/Instruments";
     return this.apiService.get(url).pipe(map(res => res));
   }
 

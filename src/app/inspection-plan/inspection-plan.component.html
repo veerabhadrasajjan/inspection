@@ -152,11 +152,15 @@
   </dx-validation-group>
 
 
-  <dx-data-grid id="gridContainer" [dataSource]="countries" [allowColumnResizing]="true" [columnAutoWidth]="true"
-    [showBorders]="true" [allowColumnReordering]="true">
+  <dx-data-grid id="gridContainer" [dataSource]="inspectionDetails" [allowColumnResizing]="true"
+    [columnAutoWidth]="true" [showBorders]="true" [allowColumnReordering]="true"
+    (onEditingStart)="logEvent('EditingStart')" (onInitNewRow)="logEvent('InitNewRow')"
+    (onRowInserting)="logEvent('RowInserting')" (onRowInserted)="logEvent('RowInserted')"
+    (onRowUpdating)="logEvent('RowUpdating')" (onRowUpdated)="logEvent('RowUpdated')"
+    (onRowRemoving)="logEvent('RowRemoving')" (onRowRemoved)="logEvent('RowRemoved')">>
 
     <dxo-paging [enabled]="false"></dxo-paging>
-    <dxo-editing mode="batch" [allowUpdating]="true" [allowAdding]="true">
+    <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
     </dxo-editing>
 
 
@@ -167,13 +171,13 @@
       </a>
     </div>
 
-    <dxi-column dataField="PostionNo" caption="Pos.No.">
+    <dxi-column dataField="PosNo" caption="Pos.No.">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
 
-    <dxi-column dataField="characteristicsId" caption="Characteristics" [width]="125">
-      <dxo-lookup [dataSource]="listOfcharacteristics" displayExpr="name" valueExpr="ID">
+    <dxi-column dataField="DimensionId" caption="Characteristics" [width]="125">
+      <dxo-lookup [dataSource]="listOfcharacteristics" displayExpr="dimensionName" valueExpr="dimensionId">
       </dxo-lookup>
     </dxi-column>
 
@@ -186,13 +190,13 @@
     </dxi-column>
 
 
-    <dxi-column dataField="ScCcKpcId" caption="SC/CC/kpc/★" [width]="125">
+    <dxi-column dataField="SC_ID" caption="SC/CC/kpc/★" [width]="125">
       <dxo-lookup [dataSource]="listOfSCCC" displayExpr="name" valueExpr="value">
       </dxo-lookup>
     </dxi-column>
 
-    <dxi-column dataField="checkingMethodId" caption="CheckingMethod" [width]="125">
-      <dxo-lookup [dataSource]="listOfcheckingMethods" displayExpr="name" valueExpr="Id">
+    <dxi-column dataField="InstrumentId" caption="Checking Method" [width]="125">
+      <dxo-lookup [dataSource]="listOfcheckingMethods" displayExpr="instrumentName" valueExpr="instrumentId">
       </dxo-lookup>
     </dxi-column>
 
@@ -216,13 +220,13 @@
     </dxi-column>
 
     <dxi-column caption="In-process">
-      <dxi-column caption="Shots" dataField="Shots" format="fixedPoint">
+      <dxi-column caption="Shots" dataField="InProcessShots" format="fixedPoint">
       </dxi-column>
-      <dxi-column caption="Freq:hrs" dataField="FreqHrs" format="fixedPoint">
+      <dxi-column caption="Freq:hrs" dataField="InProcessFrequency" format="fixedPoint">
       </dxi-column>
     </dxi-column>
 
-    <dxi-column dataField="StatusRespId" caption="Resp." [width]="125">
+    <dxi-column dataField="InProcessRespId" caption="Resp." [width]="125">
       <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="name" valueExpr="Id">
       </dxo-lookup>
     </dxi-column>

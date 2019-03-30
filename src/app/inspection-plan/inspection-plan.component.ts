@@ -33,6 +33,7 @@ export class InspectionPlanComponent implements OnInit {
     autoplastPartNo: '',
     drawingnumber: ''
   };
+  inspectionDetails: any = [];
 
   listOfcharacteristics: any = [];
   listOfSCCC: any = [];
@@ -42,9 +43,7 @@ export class InspectionPlanComponent implements OnInit {
 
     this.toolNumbers = [{ ID: '1', name: 'AUT012' }, { ID: '2', name: 'AUT013' }];
 
-    this.listOfcharacteristics = [{ ID: '1', name: 'AUT012' }, { ID: '2', name: 'AUT013' }];
     this.listOfSCCC = [{ value: 'SC', name: 'SC' }, { value: 'CC', name: 'CC' }, { value: 'KPC', name: 'KPC' }, { value: '*', name: '*' }];
-    this.listOfcheckingMethods = [{ Id: 'SC', name: 'SC' }, { Id: 'CC', name: 'CC' }, { Id: 'KPC', name: 'KPC' }, { Id: '*', name: '*' }];
     this.listOfRespPerson = [{ Id: 'SC', name: 'SC' }, { Id: 'CC', name: 'CC' }, { Id: 'KPC', name: 'KPC' }, { Id: '*', name: '*' }];
   }
 
@@ -65,7 +64,7 @@ export class InspectionPlanComponent implements OnInit {
 
   getCharcterstics() {
     this.service.getCharcterstics().pipe().subscribe(res => {
-      this.charctersticsList = res;
+      this.listOfcharacteristics = res;
       console.log(res, 'inspections')
     }, (error: any) => {
       console.error('error', error);
@@ -74,7 +73,7 @@ export class InspectionPlanComponent implements OnInit {
 
   getCheckingMethod() {
     this.service.getCheckingMethod().pipe().subscribe(res => {
-      this.checkingMethods = res;
+      this.listOfcheckingMethods = res;
       console.log(res, 'inspections')
     }, (error: any) => {
       console.error('error', error);
