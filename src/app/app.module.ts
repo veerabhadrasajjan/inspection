@@ -6,7 +6,7 @@ import { DxDataGridModule, DxTemplateModule,
   DxButtonModule,DxValidatorModule, DxTextBoxModule,
   DxValidationSummaryModule, DxValidationGroupModule,
   DxAutocompleteModule, DxDropDownBoxModule, DxCalendarModule,
-  DxDateBoxModule 
+  DxDateBoxModule,DxSelectBoxModule
 } from 'devextreme-angular';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
@@ -36,6 +36,7 @@ import { Service, Country } from './services/inspection.service';
     ImageCropperModule,
     DxCalendarModule,
     DxDateBoxModule ,
+    DxSelectBoxModule
   ],
   providers: [Service, Country],
   bootstrap: [AppComponent]

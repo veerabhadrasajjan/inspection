@@ -9,14 +9,12 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 })
 export class InspectionPlanComponent implements OnInit {
 
-  countries: Country[];
-  partNames: string[];
-  autoplastPartNos: string[];
+  itemAutoComplete: any = [];
   toolNumbers: any;
   partNumber: '';
   partName: '';
-  autoplastPartNo: '';
-  drawingnumber: '';
+
+
   drawingRevNumber: '';
   toolNumber: '';
   documentNumber: '';
@@ -26,72 +24,106 @@ export class InspectionPlanComponent implements OnInit {
   croppedImage: any = '';
   savedCroppedImage: any = '';
   diagramImage: any = '';
-  inspections : any;
-  fullInfo : any;
-  PartName : any;
-  constructor( private service: Service) {
-    this.countries = service.getCountries();
-    this.partNames = ['Engine', 'Silencer', 'Break', 'Handle'];
-    this.autoplastPartNos = ['231', '23451', '14325', '54321'];
-    this.toolNumbers = [{ID:'1', name: 'AUT012'},{ID:'2', name:'AUT013'}];
+  partItemsList: any;
+  charctersticsList: any;
+  checkingMethods: any;
+  fullInfo: any;
+  PartName: any;
+  inspection: any = {
+    autoplastPartNo: '',
+    drawingnumber: ''
+  };
+
+  listOfcharacteristics: any = [];
+  listOfSCCC: any = [];
+  listOfcheckingMethods: any = [];
+  listOfRespPerson: any = [];
+  constructor(private service: Service) {
+
+    this.toolNumbers = [{ ID: '1', name: 'AUT012' }, { ID: '2', name: 'AUT013' }];
+
+    this.listOfcharacteristics = [{ ID: '1', name: 'AUT012' }, { ID: '2', name: 'AUT013' }];
+    this.listOfSCCC = [{ value: 'SC', name: 'SC' }, { value: 'CC', name: 'CC' }, { value: 'KPC', name: 'KPC' }, { value: '*', name: '*' }];
+    this.listOfcheckingMethods = [{ Id: 'SC', name: 'SC' }, { Id: 'CC', name: 'CC' }, { Id: 'KPC', name: 'KPC' }, { Id: '*', name: '*' }];
+    this.listOfRespPerson = [{ Id: 'SC', name: 'SC' }, { Id: 'CC', name: 'CC' }, { Id: 'KPC', name: 'KPC' }, { Id: '*', name: '*' }];
   }
 
   ngOnInit() {
-    this.getAllInspections();
+    this.getPartAutocomplet();
+    this.getCharcterstics();
+    this.getCheckingMethod();
   }
 
-  getAllInspections(){
-    this.service.getInspections().pipe().subscribe(res => {
-      this.inspections = res;
+  getPartAutocomplet() {
+    this.service.getPartAutocomplet().pipe().subscribe(res => {
+      this.itemAutoComplete = res;
+
+    }, (error: any) => {
+      console.error('error', error);
+    });
+  }
+
+  getCharcterstics() {
+    this.service.getCharcterstics().pipe().subscribe(res => {
+      this.charctersticsList = res;
       console.log(res, 'inspections')
     }, (error: any) => {
       console.error('error', error);
     });
   }
 
-  updateInspectionInfo(event){
+  getCheckingMethod() {
+    this.service.getCheckingMethod().pipe().subscribe(res => {
+      this.checkingMethods = res;
+      console.log(res, 'inspections')
+    }, (error: any) => {
+      console.error('error', error);
+    });
+  }
+
+  updateInspectionInfo(event) {
     var result = "";
     result += (result && event.value) ? (", " + event.value) : event.value;
     this.fullInfo = result;
   }
-  
+
   fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
+    this.imageChangedEvent = event;
   }
-  
+
   imageCropped(event: ImageCroppedEvent) {
-      this.croppedImage = event.base64;
+    this.croppedImage = event.base64;
   }
 
   imageLoaded() {
-      // show cropper
+    // show cropper
   }
 
   cropperReady() {
-      // cropper ready
+    // cropper ready
   }
 
   loadImageFailed() {
-      // show message
+    // show message
   }
 
-  saveImage(event){
+  saveImage(event) {
     this.savedCroppedImage = this.croppedImage;
-    this.imageChangedEvent=""
-    event.srcElement.offsetParent.children[1].children[0].value=''
+    this.imageChangedEvent = ""
+    event.srcElement.offsetParent.children[1].children[0].value = ''
   }
 
-  removeImage(){
-    this.savedCroppedImage='';
+  removeImage() {
+    this.savedCroppedImage = '';
   }
 
-  saveDiagramImage(event){
+  saveDiagramImage(event) {
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event: ProgressEvent) => {
       this.diagramImage = (<FileReader>event.target).result;
     }
-    
+
   }
 
 }

@@ -3,7 +3,7 @@ import {catchError, map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from "@angular/common/http";
 
-export let API_BASE = "";
+export let API_BASE = "http://23df6546.ngrok.io/api";
 
 @Injectable({
   providedIn: 'root',
