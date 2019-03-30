@@ -27,7 +27,7 @@ export class InspectionPlanComponent implements OnInit {
   partItemsList: any;
   charctersticsList: any;
   checkingMethods: any;
-  fullInfo: any;
+  selectedItem: any = {};
   PartName: any;
   inspection: any = {
     autoplastPartNo: '',
@@ -81,10 +81,14 @@ export class InspectionPlanComponent implements OnInit {
     });
   }
 
-  updateInspectionInfo(event) {
+  updateInspectionInfo(event, source) {
     var result = "";
     result += (result && event.value) ? (", " + event.value) : event.value;
-    this.fullInfo = result;
+      this.itemAutoComplete.forEach(element => {
+       if(element[source] == event.value){
+        this.selectedItem = element;
+       } 
+      })
   }
 
   fileChangeEvent(event: any): void {
