@@ -42,4 +42,9 @@ export class Service {
     return this.apiService.get(url).pipe(map(res => res));
   }
 
+  public getEmployees(): Observable<any> {
+    let url = "/SaleCustomer/GetEmployees";
+    return this.apiService.get(url).pipe(map(res => res));
+  }
+
 }

@@ -9,8 +9,9 @@
 
       <div class="col-4">
         <div class="label">Customer Part No.</div>
-        <dx-autocomplete name="PartNo" placeholder="Part No" [dataSource]="itemAutoComplete" valueExpr="customerItemNo" [value]="selectedItem.customerItemNo"
-          itemTemplate="full" (onValueChanged)="updateInspectionInfo($event, 'customerItemNo')">
+        <dx-autocomplete name="PartNo" placeholder="Part No" [dataSource]="itemAutoComplete" valueExpr="customerItemNo"
+          [value]="inspection.customerItemNo" itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event, 'customerItemNo')">
           <div *dxTemplate="let item of 'full'">
             <span>{{item.customerItemNo}}</span>
           </div>
@@ -19,8 +20,9 @@
 
       <div class="col-4">
         <div class="label">Part Name</div>
-        <dx-autocomplete name="PartName" placeholder="Part Name" [dataSource]="itemAutoComplete"    valueExpr="itemName" [value]="selectedItem.itemName"
-          itemTemplate="full" (onValueChanged)="updateInspectionInfo($event, 'itemName')">
+        <dx-autocomplete name="PartName" placeholder="Part Name" [dataSource]="itemAutoComplete" valueExpr="itemName"
+          [value]="inspection.itemName" itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event, 'itemName')">
           <div *dxTemplate="let item of 'full'">
             <span>{{item.itemName}}</span>
           </div>
@@ -29,7 +31,7 @@
 
       <div class="col-4">
         <div class="label">Autoplast part no.</div>
-        <dx-text-box name="AutoplastPartNo" [(value)]="selectedItem.itemNo" disabled="true"
+        <dx-text-box name="AutoplastPartNo" [(value)]="inspection.itemNo" disabled="true"
           placeholder="Customer Part Number">
         </dx-text-box>
       </div>
@@ -42,7 +44,7 @@
 
       <div class="col-4">
         <div class="label">Drawing number</div>
-        <dx-text-box name="DrawingNumber" [(value)]="drawingnumber" placeholder="Drawing number">
+        <dx-text-box name="DrawingNumber" [(value)]="inspection.drawingnumber" placeholder="Drawing number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing number is required"></dxi-validation-rule>
           </dx-validator>
@@ -51,7 +53,7 @@
 
       <div class="col-4">
         <div class="label">Drawing Rev. no.</div>
-        <dx-text-box name="DrawingRevNumber" [(value)]="drawingRevNumber" placeholder="Drawing Rev. no.">
+        <dx-text-box name="DrawingRevNumber" [(value)]="inspection.drawingRevNumber" placeholder="Drawing Rev. no.">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing Rev. no. is required"></dxi-validation-rule>
           </dx-validator>
@@ -66,9 +68,8 @@
           [showClearButton]="true" [dataSource]="toolNumbers">
         </dx-drop-down-box> -->
 
-        <dx-text-box name="ToolNumber" [(value)]="selectedItem.toolNo" disabled="true"
-        placeholder="Tool Number">
-      </dx-text-box>
+        <dx-text-box name="ToolNumber" [(value)]="inspection.toolNo" disabled="true" placeholder="Tool Number">
+        </dx-text-box>
 
       </div>
     </div>
@@ -115,7 +116,7 @@
 
       <div class="col-4">
         <div class="label">Document Number</div>
-        <dx-text-box name="DocumentNo" [(value)]="documentNumber" disabled="true" placeholder="Document Number">
+        <dx-text-box name="DocumentNo" [(value)]="inspection.documentNumber" disabled="true" placeholder="Document Number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Document Number is required"></dxi-validation-rule>
           </dx-validator>
@@ -124,7 +125,7 @@
 
       <div class="col-4">
         <div class="label">Revision No.</div>
-        <dx-text-box name="RevisionNo" [(value)]="revisionNo" placeholder="Revision Number">
+        <dx-text-box name="RevisionNo" [(value)]="inspection.revisionNo" placeholder="Revision Number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Revision No. is required"></dxi-validation-rule>
           </dx-validator>
@@ -149,7 +150,7 @@
 
       <div class="col-4">
         <div class="label">Revision Date</div>
-        <dx-date-box class="mb-10" [(value)]="revisionDate">
+        <dx-date-box class="mb-10" [(value)]="inspection.revisionDate">
         </dx-date-box>
       </div>
     </div>
@@ -161,7 +162,7 @@
 
   <dx-data-grid id="gridContainer" [dataSource]="inspectionDetails" [allowColumnResizing]="true"
     [columnAutoWidth]="true" [showBorders]="true" [allowColumnReordering]="true"
-    (onEditingStart)="logEvent('EditingStart')" (onInitNewRow)="logEvent('InitNewRow')"
+    (onEditingStart)="logEvent('EditingStart')" (onInitNewRow)="onInitNewRow($event)"
     (onRowInserting)="logEvent('RowInserting')" (onRowInserted)="logEvent('RowInserted')"
     (onRowUpdating)="logEvent('RowUpdating')" (onRowUpdated)="logEvent('RowUpdated')"
     (onRowRemoving)="logEvent('RowRemoving')" (onRowRemoved)="logEvent('RowRemoved')">>
@@ -170,13 +171,7 @@
     <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
     </dxo-editing>
 
-
-    <dxi-column name="No" caption="Sl.No." cellTemplate="NoTemplate"></dxi-column>
-    <div *dxTemplate="let data of 'NoTemplate'">
-      <a class="dx-link">
-        {{ data.component.pageIndex() * data.component.pageSize() + data.rowIndex + 1 }}
-      </a>
-    </div>
+    <dxi-column name="No" caption="Sl.No." dataField="indexNo" [allowEditing]="false"></dxi-column>
 
     <dxi-column dataField="PosNo" caption="Pos.No.">
       <dxi-validation-rule type="required"></dxi-validation-rule>
@@ -213,7 +208,7 @@
     </dxi-column>
 
     <dxi-column dataField="FPARespId" caption="Resp." [width]="125">
-      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="name" valueExpr="Id">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>
 
@@ -222,7 +217,7 @@
     </dxi-column>
 
     <dxi-column dataField="LPARespId" caption="Resp." [width]="125">
-      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="name" valueExpr="Id">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>
 
@@ -234,7 +229,7 @@
     </dxi-column>
 
     <dxi-column dataField="InProcessRespId" caption="Resp." [width]="125">
-      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="name" valueExpr="Id">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>
 
@@ -246,6 +241,13 @@
   </dx-data-grid>
 
 
-
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <button type="button" class="btn btn-primary" (click)="saveInspection()">Save</button>
+      <button type="button" class="btn btn-danger">Cancel</button>
+    </div>
+    <div class="col-4"></div>
+  </div>
 
 </div>

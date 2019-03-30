@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Service, Country } from '../services/inspection.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-inspection-plan',
@@ -10,49 +11,42 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 export class InspectionPlanComponent implements OnInit {
 
   itemAutoComplete: any = [];
-  toolNumbers: any;
-  partNumber: '';
-  partName: '';
 
-
-  drawingRevNumber: '';
-  toolNumber: '';
-  documentNumber: '';
-  revisionNo: '';
-  revisionDate: string;
   imageChangedEvent: any = '';
   croppedImage: any = '';
   savedCroppedImage: any = '';
   diagramImage: any = '';
-  partItemsList: any;
-  charctersticsList: any;
-  checkingMethods: any;
-  selectedItem: any = {};
-  PartName: any;
+
   inspection: any = {
     autoplastPartNo: '',
-    drawingnumber: ''
+    drawingnumber: '',
+    drawingRevNumber: '',
+    documentNumber: '',
+    revisionNo: '',
+    revisionDate: '',
   };
+
   inspectionDetails: any = [];
 
   listOfcharacteristics: any = [];
   listOfSCCC: any = [];
   listOfcheckingMethods: any = [];
   listOfRespPerson: any = [];
+
   constructor(private service: Service) {
-
-    this.toolNumbers = [{ ID: '1', name: 'AUT012' }, { ID: '2', name: 'AUT013' }];
-
     this.listOfSCCC = [{ value: 'SC', name: 'SC' }, { value: 'CC', name: 'CC' }, { value: 'KPC', name: 'KPC' }, { value: '*', name: '*' }];
-    this.listOfRespPerson = [{ Id: 'SC', name: 'SC' }, { Id: 'CC', name: 'CC' }, { Id: 'KPC', name: 'KPC' }, { Id: '*', name: '*' }];
   }
 
   ngOnInit() {
     this.getPartAutocomplet();
     this.getCharcterstics();
     this.getCheckingMethod();
+    this.getEmployees();
   }
 
+  onInitNewRow(event) {
+    event.data.indexNo = this.inspectionDetails.length + 1;
+  }
   getPartAutocomplet() {
     this.service.getPartAutocomplet().pipe().subscribe(res => {
       this.itemAutoComplete = res;
@@ -80,14 +74,26 @@ export class InspectionPlanComponent implements OnInit {
     });
   }
 
+  getEmployees() {
+    this.service.getEmployees().pipe().subscribe(res => {
+      this.listOfRespPerson = res;
+
+    }, (error: any) => {
+      console.error('error', error);
+    });
+  }
+
   updateInspectionInfo(event, source) {
     var result = "";
     result += (result && event.value) ? (", " + event.value) : event.value;
-      this.itemAutoComplete.forEach(element => {
-       if(element[source] == event.value){
-        this.selectedItem = element;
-       } 
-      })
+    this.itemAutoComplete.forEach(element => {
+      if (element[source] == event.value) {
+        this.inspection.customerItemNo = _.get(element, 'customerItemNo');
+        this.inspection.itemName = _.get(element, 'itemName');
+        this.inspection.itemNo = _.get(element, 'itemNo');
+        this.inspection.toolNo = _.get(element, 'toolNo');
+      }
+    })
   }
 
   fileChangeEvent(event: any): void {
@@ -126,7 +132,12 @@ export class InspectionPlanComponent implements OnInit {
     reader.onload = (event: ProgressEvent) => {
       this.diagramImage = (<FileReader>event.target).result;
     }
+  }
 
+  saveInspection(){
+    var insectionObj=this.inspection;
+    insectionObj.inspectionDetials = this.inspectionDetails;
+    console.log()
   }
 
 }
