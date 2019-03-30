@@ -7,41 +7,44 @@
   <dx-validation-group>
     <div class="row">
 
-
       <div class="col-4">
         <div class="label">Customer Part No.</div>
-        <dx-text-box name="PartNo" [(value)]="partNumber" placeholder="Customer Part Number">
-          <dx-validator>
-            <dxi-validation-rule type="required" message="Part Number is required"></dxi-validation-rule>
-          </dx-validator>
-        </dx-text-box>
+        <dx-autocomplete name="PartNo" placeholder="Part No" [dataSource]="itemAutoComplete" valueExpr="customerItemNo"
+          [value]="inspection.customerItemNo" itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event, 'customerItemNo')">
+          <div *dxTemplate="let item of 'full'">
+            <span>{{item.customerItemNo}}</span>
+          </div>
+        </dx-autocomplete>
       </div>
 
       <div class="col-4">
         <div class="label">Part Name</div>
-        <dx-autocomplete
-          name="PartName"
-          placeholder="Part Name"
-          [(value)]="partName"
-          [dataSource]="partNames">
+        <dx-autocomplete name="PartName" placeholder="Part Name" [dataSource]="itemAutoComplete" valueExpr="itemName"
+          [value]="inspection.itemName" itemTemplate="full"
+          (onValueChanged)="updateInspectionInfo($event, 'itemName')">
+          <div *dxTemplate="let item of 'full'">
+            <span>{{item.itemName}}</span>
+          </div>
         </dx-autocomplete>
       </div>
 
       <div class="col-4">
         <div class="label">Autoplast part no.</div>
-        <dx-autocomplete
-          name="AutoplastPartNo"
-          placeholder="Autoplast Part Number"
-          [(value)]="autoplastPartNo"
-          [dataSource]="autoplastPartNos">
-        </dx-autocomplete>
+        <dx-text-box name="AutoplastPartNo" [(value)]="inspection.itemNo" disabled="true"
+          placeholder="Customer Part Number">
+        </dx-text-box>
       </div>
+
+
     </div>
+
+
     <div class="row">
 
       <div class="col-4">
         <div class="label">Drawing number</div>
-        <dx-text-box name="DrawingNumber" [(value)]="drawingnumber" placeholder="Drawing number">
+        <dx-text-box name="DrawingNumber" [(value)]="inspection.drawingnumber" placeholder="Drawing number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing number is required"></dxi-validation-rule>
           </dx-validator>
@@ -50,7 +53,7 @@
 
       <div class="col-4">
         <div class="label">Drawing Rev. no.</div>
-        <dx-text-box name="DrawingRevNumber"  [(value)]="drawingRevNumber" placeholder="Drawing Rev. no.">
+        <dx-text-box name="DrawingRevNumber" [(value)]="inspection.drawingRevNumber" placeholder="Drawing Rev. no.">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing Rev. no. is required"></dxi-validation-rule>
           </dx-validator>
@@ -59,14 +62,15 @@
 
       <div class="col-4">
         <div class="label">Tool Number</div>
-          <dx-drop-down-box
-            [(value)]="toolNumber"
-            valueExpr="ID"
-            displayExpr="name"
-            placeholder="Tool Number"
-            [showClearButton]="true"
-            [dataSource]="toolNumbers">
-          </dx-drop-down-box>
+
+
+        <!-- <dx-drop-down-box [(value)]="toolNumber" valueExpr="ID" displayExpr="name" placeholder="Tool Number"
+          [showClearButton]="true" [dataSource]="toolNumbers">
+        </dx-drop-down-box> -->
+
+        <dx-text-box name="ToolNumber" [(value)]="inspection.toolNo" disabled="true" placeholder="Tool Number">
+        </dx-text-box>
+
       </div>
     </div>
 
@@ -75,15 +79,17 @@
         <div class="label">Part Image</div>
         <div>
           <div *ngIf="savedCroppedImage == ''">
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Select Image</button>
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Select
+              Image</button>
           </div>
           <div>
-            <img [src]="savedCroppedImage"/>
+            <img [src]="savedCroppedImage" />
           </div>
           <div class="mt-10" *ngIf="savedCroppedImage != ''">
             <button type="button" class="btn btn-info btn-sm" (click)="removeImage()">Remove Image</button>
           </div>
         </div>
+
         <div id="myModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -94,20 +100,14 @@
               <div class="modal-body">
                 <input type="file" (change)="fileChangeEvent($event)" />
 
-                <image-cropper
-                  [imageChangedEvent]="imageChangedEvent"
-                  [maintainAspectRatio]="true"
-                  [aspectRatio]="4 / 3"
-                  [resizeToWidth]="128"
-                  format="png"
-                  (imageCropped)="imageCropped($event)"
-                  (imageLoaded)="imageLoaded()"
-                  (cropperReady)="cropperReady()"
-                  (loadImageFailed)="loadImageFailed()">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                  [aspectRatio]="4 / 3" [resizeToWidth]="128" format="png" (imageCropped)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
                 </image-cropper>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveImage($event)">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  (click)="saveImage($event)">Save</button>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@
 
       <div class="col-4">
         <div class="label">Document Number</div>
-        <dx-text-box name="DocumentNo" [(value)]="documentNumber" placeholder="Document Number">
+        <dx-text-box name="DocumentNo" [(value)]="inspection.documentNumber" disabled="true" placeholder="Document Number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Document Number is required"></dxi-validation-rule>
           </dx-validator>
@@ -125,7 +125,7 @@
 
       <div class="col-4">
         <div class="label">Revision No.</div>
-        <dx-text-box name="RevisionNo" [(value)]="revisionNo" placeholder="Revision Number">
+        <dx-text-box name="RevisionNo" [(value)]="inspection.revisionNo" placeholder="Revision Number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Revision No. is required"></dxi-validation-rule>
           </dx-validator>
@@ -140,68 +140,49 @@
             <input type="file" (change)="saveDiagramImage($event)" />
           </div>
           <div>
-            <img class='mt-20' [src]="diagramImage"/>
+            <img class='mt-20' [src]="diagramImage" />
           </div>
         </div>
-        
+
       </div>
       <div class="col-4">
       </div>
 
       <div class="col-4">
         <div class="label">Revision Date</div>
-        <dx-date-box
-          class="mb-10"
-          [(value)]="revisionDate">
+        <dx-date-box class="mb-10" [(value)]="inspection.revisionDate">
         </dx-date-box>
       </div>
     </div>
 
-  
+
 
   </dx-validation-group>
-  <!-- 
-  <dx-validation-group>
-    <dx-text-box name="FirstName">
-      <dx-validator>
-        <dxi-validation-rule type="required" message="First name is required"></dxi-validation-rule>
-        ...
-      </dx-validator>
-    </dx-text-box>
-    <dx-text-box name="LastName">
-      <dx-validator>
-        <dxi-validation-rule type="required" message="Last name is required"></dxi-validation-rule>
-        ...
-      </dx-validator>
-    </dx-text-box>
-    <dx-validation-summary></dx-validation-summary>
-    <dx-button></dx-button>
-  </dx-validation-group> -->
 
 
-  <dx-data-grid id="gridContainer" [dataSource]="countries" [allowColumnResizing]="true"
-    [columnAutoWidth]="true" [showBorders]="true"
-    [allowColumnReordering]="true">
+  <dx-data-grid id="gridContainer" [dataSource]="inspectionDetails" [allowColumnResizing]="true"
+    [columnAutoWidth]="true" [showBorders]="true" [allowColumnReordering]="true"
+    (onEditingStart)="logEvent('EditingStart')" (onInitNewRow)="onInitNewRow($event)"
+    (onRowInserting)="logEvent('RowInserting')" (onRowInserted)="logEvent('RowInserted')"
+    (onRowUpdating)="logEvent('RowUpdating')" (onRowUpdated)="logEvent('RowUpdated')"
+    (onRowRemoving)="logEvent('RowRemoving')" (onRowRemoved)="logEvent('RowRemoved')">>
 
     <dxo-paging [enabled]="false"></dxo-paging>
-    <dxo-editing mode="batch" [allowUpdating]="true" [allowAdding]="true">
+    <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
     </dxo-editing>
 
+    <dxi-column name="No" caption="Sl.No." dataField="indexNo" [allowEditing]="false"></dxi-column>
 
-    <dxi-column name="No" caption="Sl.No." cellTemplate="NoTemplate"></dxi-column>
-    <div *dxTemplate="let data of 'NoTemplate'">
-      <a class="dx-link">
-        {{ data.component.pageIndex() * data.component.pageSize() + data.rowIndex + 1 }}
-      </a>
-    </div>
-
-    <dxi-column dataField="PostionNo" caption="Pos.No.">
+    <dxi-column dataField="PosNo" caption="Pos.No.">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="Characteristics" caption="Characteristics">
-      <dxi-validation-rule type="required"></dxi-validation-rule>
+
+    <dxi-column dataField="DimensionId" caption="Characteristics" [width]="125">
+      <dxo-lookup [dataSource]="listOfcharacteristics" displayExpr="dimensionName" valueExpr="dimensionId">
+      </dxo-lookup>
     </dxi-column>
+
 
     <dxi-column caption="Specification">
       <dxi-column caption="LSL" dataField="LSL" format="fixedPoint" [precision]="2">
@@ -210,11 +191,15 @@
       </dxi-column>
     </dxi-column>
 
-    <dxi-column dataField="SC_CC" caption="SC/CC/kpc/★">
+
+    <dxi-column dataField="SC_ID" caption="SC/CC/kpc/★" [width]="125">
+      <dxo-lookup [dataSource]="listOfSCCC" displayExpr="name" valueExpr="value">
+      </dxo-lookup>
     </dxi-column>
 
-    <dxi-column dataField="CheckingMethod" caption="Checking Method">
-      <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-column dataField="InstrumentId" caption="Checking Method" [width]="125">
+      <dxo-lookup [dataSource]="listOfcheckingMethods" displayExpr="instrumentName" valueExpr="instrumentId">
+      </dxo-lookup>
     </dxi-column>
 
 
@@ -222,29 +207,32 @@
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="FPAResp" caption="Resp.">
-
+    <dxi-column dataField="FPARespId" caption="Resp." [width]="125">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
+      </dxo-lookup>
     </dxi-column>
 
     <dxi-column dataField="LPA" caption="LPA">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="LPAResp" caption="Resp.">
-
+    <dxi-column dataField="LPARespId" caption="Resp." [width]="125">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
+      </dxo-lookup>
     </dxi-column>
-
 
     <dxi-column caption="In-process">
-      <dxi-column caption="Shots" dataField="Shots" format="fixedPoint">
+      <dxi-column caption="Shots" dataField="InProcessShots" format="fixedPoint">
       </dxi-column>
-      <dxi-column caption="Freq:hrs" dataField="FreqHrs" format="fixedPoint">
+      <dxi-column caption="Freq:hrs" dataField="InProcessFrequency" format="fixedPoint">
       </dxi-column>
     </dxi-column>
 
-    <dxi-column dataField="StatusResp" caption="Resp.">
-
+    <dxi-column dataField="InProcessRespId" caption="Resp." [width]="125">
+      <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
+      </dxo-lookup>
     </dxi-column>
+
 
     <dxi-column dataField="PostionIndication" caption="Pos.No.Indication">
 
@@ -252,7 +240,14 @@
 
   </dx-data-grid>
 
-  
 
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <button type="button" class="btn btn-primary" (click)="saveInspection()">Save</button>
+      <button type="button" class="btn btn-danger">Cancel</button>
+    </div>
+    <div class="col-4"></div>
+  </div>
 
 </div>

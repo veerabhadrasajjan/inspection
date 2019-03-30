@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 export class Country {
   PostionNo: number;
   Characteristics: string;
   LSL: number;
   USL: number;
-  SC_CC:string;
+  SC_CC: string;
   CheckingMethod: string;
   FPA: number;
   FPAResp: string;
@@ -17,161 +20,31 @@ export class Country {
   PostionIndication: string;
 }
 
-let countries: Country[] = [{
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}, {
-  "PostionNo": 5,
-  "Characteristics": "Width",
-  "LSL": 7.40,
-  "USL": 7.80,
-  "SC_CC": null,
-  "CheckingMethod": "Vernier Caliper",
-  "FPA": 1,
-  "FPAResp": "",
-  "LPA": 1,
-  "LPAResp": "",
-  "Shots": 1,
-  "FreqHrs": 2,
-  "StatusResp": "",
-  "PostionIndication": ""
-}];
-
 @Injectable()
 export class Service {
-  getCountries(): Country[] {
-    return countries;
+  ApiEndPoint: any;
+  constructor(private apiService: ApiService) { 
+    
   }
+
+  public getPartAutocomplet(): Observable<any> {
+    let url = "/SaleCustomer/ItemsForAutoComplete";
+    return this.apiService.get(url).pipe(map(res => res));
+  }
+
+  public getCharcterstics(): Observable<any> {
+    let url = "/SaleCustomer/Dimensions";
+    return this.apiService.get(url).pipe(map(res => res));
+  }
+
+  public getCheckingMethod(): Observable<any> {
+    let url = "/SaleCustomer/Instruments";
+    return this.apiService.get(url).pipe(map(res => res));
+  }
+
+  public getEmployees(): Observable<any> {
+    let url = "/SaleCustomer/GetEmployees";
+    return this.apiService.get(url).pipe(map(res => res));
+  }
+
 }
