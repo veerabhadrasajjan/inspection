@@ -44,7 +44,7 @@
 
       <div class="col-4">
         <div class="label">Drawing number</div>
-        <dx-text-box name="DrawingNumber" [(value)]="inspection.drawingnumber" placeholder="Drawing number">
+        <dx-text-box name="DrawingNumber" [(value)]="inspection.drawingNo" placeholder="Drawing number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing number is required"></dxi-validation-rule>
           </dx-validator>
@@ -53,7 +53,7 @@
 
       <div class="col-4">
         <div class="label">Drawing Rev. no.</div>
-        <dx-text-box name="DrawingRevNumber" [(value)]="inspection.drawingRevNumber" placeholder="Drawing Rev. no.">
+        <dx-text-box name="DrawingRevNumber" [(value)]="inspection.drawingRevNo" placeholder="Drawing Rev. no.">
           <dx-validator>
             <dxi-validation-rule type="required" message="Drawing Rev. no. is required"></dxi-validation-rule>
           </dx-validator>
@@ -116,7 +116,7 @@
 
       <div class="col-4">
         <div class="label">Document Number</div>
-        <dx-text-box name="DocumentNo" [(value)]="inspection.documentNumber" disabled="true" placeholder="Document Number">
+        <dx-text-box name="DocumentNo" [(value)]="inspection.docNo"  placeholder="Document Number">
           <dx-validator>
             <dxi-validation-rule type="required" message="Document Number is required"></dxi-validation-rule>
           </dx-validator>
@@ -150,7 +150,7 @@
 
       <div class="col-4">
         <div class="label">Revision Date</div>
-        <dx-date-box class="mb-10" [(value)]="inspection.revisionDate">
+        <dx-date-box class="mb-10" [(value)]="inspection.drawRevDate">
         </dx-date-box>
       </div>
     </div>
@@ -173,62 +173,62 @@
 
     <dxi-column name="No" caption="Sl.No." dataField="indexNo" [allowEditing]="false"></dxi-column>
 
-    <dxi-column dataField="PosNo" caption="Pos.No.">
+    <dxi-column dataField="posNo" caption="Pos.No.">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
 
-    <dxi-column dataField="DimensionId" caption="Characteristics" [width]="125">
+    <dxi-column dataField="dimensionID" caption="Characteristics" [width]="125">
       <dxo-lookup [dataSource]="listOfcharacteristics" displayExpr="dimensionName" valueExpr="dimensionId">
       </dxo-lookup>
     </dxi-column>
 
 
     <dxi-column caption="Specification">
-      <dxi-column caption="LSL" dataField="LSL" format="fixedPoint" [precision]="2">
+      <dxi-column caption="LSL" dataField="lsl" format="fixedPoint" [precision]="2">
       </dxi-column>
-      <dxi-column caption="USL" dataField="USL" format="fixedPoint" [precision]="2">
+      <dxi-column caption="USL" dataField="usl" format="fixedPoint" [precision]="2">
       </dxi-column>
     </dxi-column>
 
 
-    <dxi-column dataField="SC_ID" caption="SC/CC/kpc/★" [width]="125">
+    <dxi-column dataField="scid" caption="SC/CC/kpc/★" [width]="125">
       <dxo-lookup [dataSource]="listOfSCCC" displayExpr="name" valueExpr="value">
       </dxo-lookup>
     </dxi-column>
 
-    <dxi-column dataField="InstrumentId" caption="Checking Method" [width]="125">
+    <dxi-column dataField="instrumentID" caption="Checking Method" [width]="125">
       <dxo-lookup [dataSource]="listOfcheckingMethods" displayExpr="instrumentName" valueExpr="instrumentId">
       </dxo-lookup>
     </dxi-column>
 
 
-    <dxi-column dataField="FPA" caption="FPA">
+    <dxi-column dataField="fpa" caption="FPA">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="FPARespId" caption="Resp." [width]="125">
+    <dxi-column dataField="fpArespID" caption="Resp." [width]="125">
       <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>
 
-    <dxi-column dataField="LPA" caption="LPA">
+    <dxi-column dataField="lpa" caption="LPA">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="LPARespId" caption="Resp." [width]="125">
+    <dxi-column dataField="lpArespID" caption="Resp." [width]="125">
       <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>
 
     <dxi-column caption="In-process">
-      <dxi-column caption="Shots" dataField="InProcessShots" format="fixedPoint">
+      <dxi-column caption="Shots" dataField="inProcessShot" format="fixedPoint">
       </dxi-column>
-      <dxi-column caption="Freq:hrs" dataField="InProcessFrequency" format="fixedPoint">
+      <dxi-column caption="Freq:hrs" dataField="inProcessFrequency" format="fixedPoint">
       </dxi-column>
     </dxi-column>
 
-    <dxi-column dataField="InProcessRespId" caption="Resp." [width]="125">
+    <dxi-column dataField="iNprocessrespID" caption="Resp." [width]="125">
       <dxo-lookup [dataSource]="listOfRespPerson" displayExpr="designationName" valueExpr="designationID">
       </dxo-lookup>
     </dxi-column>

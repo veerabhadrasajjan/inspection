@@ -3,7 +3,7 @@ import {catchError, map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from "@angular/common/http";
 
-export let API_BASE = "http://23df6546.ngrok.io/api";
+export let API_BASE = "http://localhost:4512/api";
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +55,7 @@ export class ApiService {
     }
 
     return this.http
-      .post(reqUrl, body).pipe(
+      .post(reqUrl, body, headersOptions).pipe(
       map(res => res),
       catchError((errorResp) => {
         return this.handleError(errorResp);
@@ -74,7 +74,7 @@ export class ApiService {
    
 
     return this.http
-      .put(reqUrl, body).pipe(
+      .put(reqUrl, body, headersOptions).pipe(
       map(res => res),
       catchError((errorResp) => {
         return this.handleError(errorResp);

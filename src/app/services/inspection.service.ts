@@ -47,4 +47,9 @@ export class Service {
     return this.apiService.get(url).pipe(map(res => res));
   }
 
+  public saveInspection(req): Observable<any> {
+    let url = "/SaleCustomer/InsertInsp";
+    return this.apiService.post(url, req).pipe(map(res => res));
+  }
+
 }

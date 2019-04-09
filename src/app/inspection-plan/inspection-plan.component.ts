@@ -18,12 +18,12 @@ export class InspectionPlanComponent implements OnInit {
   diagramImage: any = '';
 
   inspection: any = {
-    autoplastPartNo: '',
-    drawingnumber: '',
-    drawingRevNumber: '',
-    documentNumber: '',
+    itemNo: '',
+    drawingNo: '',
+    drawingRevNo: '',
+    docNo: '',
     revisionNo: '',
-    revisionDate: '',
+    drawRevDate: '',
   };
 
   inspectionDetails: any = [];
@@ -91,6 +91,7 @@ export class InspectionPlanComponent implements OnInit {
         this.inspection.customerItemNo = _.get(element, 'customerItemNo');
         this.inspection.itemName = _.get(element, 'itemName');
         this.inspection.itemNo = _.get(element, 'itemNo');
+        this.inspection.itemID = _.get(element, 'itemID');
         this.inspection.toolNo = _.get(element, 'toolNo');
       }
     })
@@ -137,7 +138,17 @@ export class InspectionPlanComponent implements OnInit {
   saveInspection(){
     var insectionObj=this.inspection;
     insectionObj.inspectionDetials = this.inspectionDetails;
-    console.log()
+    this.service.saveInspection(insectionObj).pipe().subscribe(res => {
+      alert('saved');
+
+    }, (error: any) => {
+      console.error('error', error);
+    });
+   
+  }
+
+  logEvent(name){
+
   }
 
 }
